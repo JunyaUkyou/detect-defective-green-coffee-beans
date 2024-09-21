@@ -1,0 +1,26 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/src
+      - ./backend/.dockervenv:/src/.venv
+    ports:
+      - 8000:8000 # ホストマシンのポート8000を、docker内のポート8000に接続
+    environment:
+      - WATCHFILES_FORCE_POLLING=true # ホットリロードを設定
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/usr/src/app
+    ports:
+      - 5173:5173 # ホストマシンのポート5173を、docker内のポート5173に接続
+    environment:
+      - NODE_ENV=development
+    working_dir: /usr/src/app/app
+    command: 'npm run dev'
