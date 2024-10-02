@@ -10,7 +10,7 @@ body {
 }
 
 .upload-container {
-  width: 800px;
+  width: 100%;
 }
 
 .fileUpload {
