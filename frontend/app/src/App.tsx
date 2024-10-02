@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import './App.css';
 
 const App = () => {
-  const [file, setFile] = useState<File | null>(null);
+  //const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log({ e });
     const files = e.target.files;
     if (files && files[0]) {
-      setFile(files[0]);
-      onClickSubmit();
+      //setFile(files[0]);
+      onClickSubmit(files[0]);
     }
   };
 
-  const onClickSubmit = () => {
+  const onClickSubmit = (file: File) => {
     if (!file) {
       return;
     }
@@ -56,17 +56,6 @@ const App = () => {
               onChange={onChangeFile}
             />
           </label>
-
-          <div className="upload-logo">
-            <img src="./images/upload.png" className="upload-logo" alt="logo" />
-          </div>
-          <div className="upload-message">ファイルをドロップ</div>
-        </div>
-
-        {imageUrl && <img src={imageUrl} alt="Downloaded" />}
-
-        <div className="upload-processing">
-          <p>アップロード中</p>
         </div>
 
         <div className="upload-result">
