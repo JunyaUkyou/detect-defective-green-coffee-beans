@@ -1,12 +1,12 @@
 body {
-  background-color: #fff;
+  background-color: rgb(235, 235, 235);
+  font-family: 'Noto Sans JP', Arial, Helvetica, sans-serif;
 }
 
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
 }
 
 .upload-container {
@@ -14,11 +14,32 @@ body {
 }
 
 .fileUpload {
+  background-color: rgb(250, 250, 250);
   border: 1px solid #dbdbda;
   border-radius: 30px;
   display: flex;
-  flex-flow: column;
+  justify-content: space-around;
   padding: 50px 0;
+  text-align: center;
+}
+
+.top-center {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+}
+
+.coffee {
+  display: flex;
+  justify-content: center;
+}
+
+.coffee-cap {
+  width: 100px;
+}
+
+.parson {
+  width: 100px;
 }
 
 .aaa {
@@ -55,4 +76,46 @@ body {
 }
 .bbb input {
   display: none;
+}
+
+.heading {
+  position: relative;
+  padding: 0.8em;
+  font-size: 26px;
+  letter-spacing: 1.3px;
+}
+
+.heading span {
+  position: relative;
+  z-index: 2;
+}
+
+.heading::before {
+  content: attr(data-number);
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  color: rgba(229 192 70 / 0.4);
+  font-size: 54px;
+  z-index: 1;
+}
+
+.upload-result {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.no-image {
+  opacity: 0.2;
+}
+
+.upload-loading {
+  width: 300px;
+  height: 300px;
+}
+
+.emphasis {
+  background-image: linear-gradient(rgba(250 250 250 / 250) 70%, #e5c046 70%);
 }
