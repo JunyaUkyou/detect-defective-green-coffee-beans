@@ -3,12 +3,19 @@ from torchvision import transforms
 from PIL import ImageDraw, ImageFont
 import numpy as np
 from .net import Net 
+import os
+import matplotlib.pyplot as plt
 
 # SSDモデルの推論処理
 def run_ssd_prediction(image):
+  
+    # 現在のディレクトリの絶対パスを取得
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    weights_path = os.path.join(current_dir, 'SSD_weights.pth')    
+  
     # モデルを読み込み
     model2 = Net()  # NetはSSDの定義済みクラス
-    model2.load_state_dict(torch.load('SSD_weights.pth'))
+    model2.load_state_dict(torch.load(weights_path, map_location=torch.device('cpu')))
     model2.eval()
 
     # 前処理
@@ -36,7 +43,7 @@ def visualize(input_tensor, output, class_names):
     labels = output['labels'].cpu().detach().numpy()
 
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype('fonts/NotoSansCJKjp-Bold.otf', 16)
+    #font = ImageFont.truetype('fonts/NotoSansCJKjp-Bold.otf', 16)
 
     for box, label in zip(boxes, labels):
         color = cmap(label, bytes=True)
@@ -45,6 +52,7 @@ def visualize(input_tensor, output, class_names):
         # ラベルの描画
         text = class_names[label]
         draw.rectangle([box[0], box[1], box[0]+100, box[1]+20], fill=color)  # サイズは適宜調整
-        draw.text((box[0], box[1]), text, font=font, fill='white')
+        #draw.text((box[0], box[1]), text, font=font, fill='white')
+        draw.text((box[0], box[1]), text, fill='white')
 
     return image

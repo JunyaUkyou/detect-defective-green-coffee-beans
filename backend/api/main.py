@@ -39,7 +39,12 @@ async def ssd(file: UploadFile = File(...)):
   # 推論
   result_img = run_ssd_prediction(image)
 
-  return StreamingResponse(result_img, media_type="image/jpeg")
+  # バイナリデータとして画像をメモリ上に保存
+  img_io = io.BytesIO()
+  result_img.save(img_io, format='JPEG')
+  img_io.seek(0)
+
+  return StreamingResponse(img_io, media_type="image/jpeg")
 
 
 @app.post('/autoencoder')

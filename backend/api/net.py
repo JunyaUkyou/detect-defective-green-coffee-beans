@@ -37,9 +37,6 @@ class Net(pl.LightningModule):
 
         self.ssd300 = model
 
-        # mAP metricの初期化
-        self.map_metric = torchmetrics.detection.MeanAveragePrecision()
-
     def forward(self, x, t=None):
         if self.training:
             return self.ssd300(x, t)
@@ -86,44 +83,6 @@ class Net(pl.LightningModule):
         loss = sum(losses.values())
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
         return loss
-
-    def validation_step(self, batch, batch_idx):
-        x, t = batch
-        ## mAPの算出
-        outputs = self(x)
-        self.map_metric.update(outputs, t)
-        return outputs
-
-    def on_validation_epoch_end(self):
-        # mAPの各値を個別にログ
-        map_metrics = self.map_metric.compute()
-        self.log('val_map', map_metrics['map'])
-        self.log('val_map_50', map_metrics['map_50'])
-        self.log('val_map_75', map_metrics['map_75'])
-        self.log('val_map_large', map_metrics['map_large'])
-        self.log('val_map_medium', map_metrics['map_medium'])
-        self.log('val_map_small', map_metrics['map_small'])
-        print(f'Validation mAP: {map_metrics}')
-        self.map_metric.reset()  # リセット
-
-    def test_step(self, batch):
-        x, t = batch
-        outputs = self(x)
-        self.map_metric.update(outputs, t)
-        return outputs
-
-    def on_test_epoch_end(self):
-        # mAPの各値をログ
-        map_metrics = self.map_metric.compute()
-        self.log('test_map', map_metrics['map'])
-        self.log('test_map_50', map_metrics['map_50'])
-        self.log('test_map_75', map_metrics['map_75'])
-        self.log('test_map_large', map_metrics['map_large'])
-        self.log('test_map_medium', map_metrics['map_medium'])
-        self.log('test_map_small', map_metrics['map_small'])
-        print(f'Test mAP: {map_metrics}')
-        self.map_metric.reset()
-
 
     def configure_optimizers(self):
         params = [p for p in self.ssd300.parameters() if p.requires_grad]
