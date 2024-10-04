@@ -28,10 +28,10 @@ def run_ssd_prediction(image):
 
     # 推論結果を描写
     class_names = {
-      1:"Good Bean (Front)",
-      2:"Good Bean (Back)",
-      3:"Defective Bean (Front, Shape Defect)",
-      4:"Defective Bean (Back, Shape Defect)",
+      1:"良質豆",
+      2:"良質豆",
+      3:"欠点豆(形)",
+      4:"欠点豆(形)",
     }
     return visualize(x[0], y[0], class_names)
 
@@ -43,16 +43,20 @@ def visualize(input_tensor, output, class_names):
     labels = output['labels'].cpu().detach().numpy()
 
     draw = ImageDraw.Draw(image)
-    #font = ImageFont.truetype('fonts/NotoSansCJKjp-Bold.otf', 16)
+    font_size = 16
+    font = ImageFont.truetype('fonts/NotoSansCJKjp-Bold.otf', font_size)
 
     for box, label in zip(boxes, labels):
         color = cmap(label, bytes=True)
         # バウンディングボックスの描画
         draw.rectangle(box, outline=color)
+
         # ラベルの描画
         text = class_names[label]
-        draw.rectangle([box[0], box[1], box[0]+100, box[1]+20], fill=color)  # サイズは適宜調整
-        #draw.text((box[0], box[1]), text, font=font, fill='white')
-        draw.text((box[0], box[1]), text, fill='white')
+        left, top, right, bottom = font.getbbox(text=text)
+        text_height = bottom
+        text_width = right - left
+        draw.rectangle([box[0], box[1], box[0]+text_width, box[1]+text_height], fill=color)
+        draw.text((box[0], box[1]), text, font=font, fill='white')
 
     return image
