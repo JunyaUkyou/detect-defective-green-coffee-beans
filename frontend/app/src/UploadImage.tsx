@@ -59,23 +59,20 @@ const UploadImage: React.FC<UploadImageProps> = ({
         </div>
         <div className="upload-result">
           <div className="upload-left">
-            <img src={src} alt="Uploaded" />
-            <button onClick={onClickSubmit} />
-            <a className="upload-button" href="">
-              推論する
-            </a>
+            <img src={src} alt="Uploaded" className="ai-image" />
+            <button onClick={onClickSubmit}>推論する</button>
           </div>
 
           <div className="upload-right">
             {isLoading ? (
               <img
                 src="/public/images/loading.gif"
-                className="upload-loading"
+                className="upload-loading ai-image"
               />
             ) : (
               <img
                 src={imageUrl ? imageUrl : '/public/images/no-image.png'}
-                className={imageUrl ? 'downloaded' : 'no-image'}
+                className={`ai-image ${imageUrl ? 'downloaded' : 'no-image'}`}
                 alt="Downloaded"
               />
             )}

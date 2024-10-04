@@ -22,7 +22,7 @@ const App = () => {
     },
     {
       src: bad2,
-      description: '欠点豆 2個',
+      description: '良質豆 1個 欠点豆 1個',
     },
   ];
 
