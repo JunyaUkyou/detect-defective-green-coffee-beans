@@ -5,6 +5,9 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /src
 
+# 環境変数にPYTHONPATHを設定
+ENV PYTHONPATH="${PYTHONPATH}:/src"
+
 # pipを使ってpoetryをインストール
 RUN pip install poetry
 

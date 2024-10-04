@@ -12,7 +12,8 @@ import torchvision
 from torchvision import transforms
 import numpy as np
 
-
+# 各処理を別ファイルからインポート
+from .ssd_predictor import run_ssd_prediction
 
 app = FastAPI()
 
@@ -34,15 +35,13 @@ app.add_middleware(
 async def ssd(file: UploadFile = File(...)):
   # 画像を開く
   image = Image.open(file.file)
+  
+  # 推論
+  result_img = run_ssd_prediction(image)
 
-  # ここで推論を実行（物体検出）
-  # バウンディングボックスを描画する例（仮の座標）
-  draw = ImageDraw.Draw(image)
-  draw.rectangle([50, 50, 200, 200], outline="red", width=3)  # 仮のバウンディングボックス
-
-  # メモリ上で画像を保存して、レスポンスとして返す
+  # バイナリデータとして画像をメモリ上に保存
   img_io = io.BytesIO()
-  image.save(img_io, format="JPEG")
+  result_img.save(img_io, format='JPEG')
   img_io.seek(0)
 
   return StreamingResponse(img_io, media_type="image/jpeg")
