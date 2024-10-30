@@ -1,7 +1,6 @@
-// hooks/useUpload.ts
 import { useState } from 'react';
 
-export const useUpload = () => {
+export const PredictImage = () => {
   // 画像URL
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   // ローディングフラグ

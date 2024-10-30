@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useUpload } from './hooks/useUpload';
+import { PredictImage } from './hooks/PredictImage';
 
 interface UploadImageProps {
   src: string;
@@ -13,7 +13,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
   imageNumber,
 }) => {
   // ローディング表示フラグ、推論結果画像URL、推論実施関数
-  const { isLoading, imageUrl, uploadFile } = useUpload();
+  const { isLoading, imageUrl, uploadFile } = PredictImage();
 
   // 画像No
   const paddedImageNumber = String(imageNumber).padStart(2, '0');
