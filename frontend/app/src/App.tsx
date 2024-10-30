@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import TopMenu from './TopMenu';
 import UploadImage from './UploadImage';
 import good1 from './assets/2EB011BF-CAA1-4470-9376-2E42A8B87CDE_1_105_c.jpeg';
 import good2 from './assets/4A0389F9-050D-4FF2-9230-1B434ACB44DE_4_5005_c.jpeg';
@@ -29,20 +30,9 @@ const App = () => {
   return (
     <>
       <div className="upload-container">
-        <div className="fileUpload">
-          <img src="/public/images/4307_color.png" className="parson" />
-          <div className="top-center">
-            <p className="aaa">
-              コーヒー豆の<span className="emphasis">欠点豆検出</span>
-              のデモサイトです
-            </p>
-            <div className="coffee">
-              <img src="/public/images/1421_color.png" className="coffee-cap" />
-            </div>
-          </div>
-          <img src="/public/images/4304_color.png" className="parson" />
-        </div>
-
+        {/* トップ画面 */}
+        <TopMenu />
+        {/* サンプル画面 */}
         {images.map((image, index) => (
           <UploadImage
             key={index}
