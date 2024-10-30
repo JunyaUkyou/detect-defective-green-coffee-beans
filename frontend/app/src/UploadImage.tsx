@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { PredictImage } from './hooks/PredictImage';
 
 interface UploadImageProps {
@@ -12,8 +12,8 @@ const UploadImage: React.FC<UploadImageProps> = ({
   description,
   imageNumber,
 }) => {
-  // ローディング表示フラグ、推論結果画像URL、推論実施関数
-  const { isLoading, predictionImageUrl, runPrediction } = PredictImage();
+  // 推論中フラグ、推論結果画像URL、推論実施関数
+  const { isPredicting, predictionImageUrl, runPrediction } = PredictImage();
 
   // 画像No
   const paddedImageNumber = String(imageNumber).padStart(2, '0');
@@ -38,7 +38,8 @@ const UploadImage: React.FC<UploadImageProps> = ({
           </div>
 
           <div className="upload-right">
-            {isLoading ? (
+            {/* 推論中はローディング表示 */}
+            {isPredicting ? (
               <img
                 src="/public/images/loading.gif"
                 className="upload-loading ai-image"

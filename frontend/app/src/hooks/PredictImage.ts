@@ -6,12 +6,12 @@ export const PredictImage = () => {
     null
   );
   // ローディングフラグ
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPredicting, setIsPredicting] = useState(false);
 
   // 画像推論関数
   const runPrediction = async (src: string) => {
     // ローディング表示
-    setIsLoading(true);
+    setIsPredicting(true);
 
     // 画像を src からフェッチして Blob に変換
     const response = await fetch(src);
@@ -37,15 +37,15 @@ export const PredictImage = () => {
       .then((response) => response.blob()) // Blob 形式で画像を取得
       .then((blob) => {
         const url = URL.createObjectURL(blob);
-        setIsLoading(false);
+        setIsPredicting(false);
         console.log({ url });
         setPredictionImageUrl(url); // 画像を表示するためにURLを生成
       })
       .catch((error) => {
-        console.error('リクエストエラー:', error);
-        setIsLoading(false);
+        console.error('API実行中エラー:', error);
+        setIsPredicting(false);
       });
   };
 
-  return { isLoading, predictionImageUrl, runPrediction };
+  return { isPredicting, predictionImageUrl, runPrediction };
 };
