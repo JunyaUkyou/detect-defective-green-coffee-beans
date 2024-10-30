@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useUpload } from './hooks/useUpload';
 
 interface UploadImageProps {
   src: string;
@@ -11,42 +12,15 @@ const UploadImage: React.FC<UploadImageProps> = ({
   description,
   imageNumber,
 }) => {
-  const getFileName = (path: string) =>
-    path.substring(path.lastIndexOf('/') + 1);
+  // ローディング表示フラグ、推論結果画像URL、推論実施関数
+  const { isLoading, imageUrl, uploadFile } = useUpload();
 
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  // 画像No
   const paddedImageNumber = String(imageNumber).padStart(2, '0');
 
+  // 推論実施関数
   const onClickSubmit = async () => {
-    setIsLoading(true);
-    // 画像を src からフェッチして Blob に変換
-    const response = await fetch(src);
-    const blob = await response.blob();
-
-    // Blob から File オブジェクトを作成
-    const fileName = getFileName(src);
-    const file = new File([blob], fileName, { type: blob.type });
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    fetch('http://localhost:8000/ssd', {
-      method: 'POST',
-      body: formData, // ファイルを含めたFormDataを送信
-    })
-      .then((response) => response.blob()) // Blob 形式で画像を取得
-      .then((blob) => {
-        const url = URL.createObjectURL(blob);
-        setIsLoading(false);
-        console.log({ url });
-        setImageUrl(url); // 画像を表示するためにURLを生成
-      })
-      .catch((error) => {
-        console.error('リクエストエラー:', error);
-        setIsLoading(false);
-      });
+    uploadFile(src);
   };
 
   return (
