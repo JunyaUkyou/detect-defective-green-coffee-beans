@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import './App.css';
 import TopMenu from './TopMenu';
 import UploadImage from './UploadImage';
