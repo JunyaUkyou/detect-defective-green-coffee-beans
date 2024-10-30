@@ -1,13 +1,15 @@
 import { useState } from 'react';
 
 export const PredictImage = () => {
-  // 画像URL
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  // 推論結果画像
+  const [predictionImageUrl, setPredictionImageUrl] = useState<string | null>(
+    null
+  );
   // ローディングフラグ
   const [isLoading, setIsLoading] = useState(false);
 
-  // 画像アップロード関数
-  const uploadFile = async (src: string) => {
+  // 画像推論関数
+  const runPrediction = async (src: string) => {
     // ローディング表示
     setIsLoading(true);
 
@@ -37,7 +39,7 @@ export const PredictImage = () => {
         const url = URL.createObjectURL(blob);
         setIsLoading(false);
         console.log({ url });
-        setImageUrl(url); // 画像を表示するためにURLを生成
+        setPredictionImageUrl(url); // 画像を表示するためにURLを生成
       })
       .catch((error) => {
         console.error('リクエストエラー:', error);
@@ -45,5 +47,5 @@ export const PredictImage = () => {
       });
   };
 
-  return { isLoading, imageUrl, uploadFile };
+  return { isLoading, predictionImageUrl, runPrediction };
 };

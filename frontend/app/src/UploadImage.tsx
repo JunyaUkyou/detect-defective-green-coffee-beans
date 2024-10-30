@@ -13,14 +13,14 @@ const UploadImage: React.FC<UploadImageProps> = ({
   imageNumber,
 }) => {
   // ローディング表示フラグ、推論結果画像URL、推論実施関数
-  const { isLoading, imageUrl, uploadFile } = PredictImage();
+  const { isLoading, predictionImageUrl, runPrediction } = PredictImage();
 
   // 画像No
   const paddedImageNumber = String(imageNumber).padStart(2, '0');
 
   // 推論実施関数
   const onClickSubmit = async () => {
-    uploadFile(src);
+    runPrediction(src);
   };
 
   return (
@@ -45,8 +45,14 @@ const UploadImage: React.FC<UploadImageProps> = ({
               />
             ) : (
               <img
-                src={imageUrl ? imageUrl : '/public/images/no-image.png'}
-                className={`ai-image ${imageUrl ? 'downloaded' : 'no-image'}`}
+                src={
+                  predictionImageUrl
+                    ? predictionImageUrl
+                    : '/public/images/no-image.png'
+                }
+                className={`ai-image ${
+                  predictionImageUrl ? 'downloaded' : 'no-image'
+                }`}
                 alt="Downloaded"
               />
             )}
