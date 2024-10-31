@@ -26,7 +26,7 @@ const App = () => {
     },
     {
       src: '',
-      description: 'フリーアップロード',
+      description: '画像をアップロードする',
     },
   ];
 

@@ -123,3 +123,13 @@ body {
 .ai-image {
   border-radius: 30px;
 }
+
+.upload-label {
+  display: inline-block;
+  width: 150px;
+  height: auto;
+}
+
+.image-upload {
+  display: none;
+}
