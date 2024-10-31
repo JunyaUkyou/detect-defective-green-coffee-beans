@@ -7,7 +7,7 @@ import bad1 from './assets/bad1.jpg';
 import bad2 from './assets/bad2.jpeg';
 
 const App = () => {
-  const images = [
+  const sampleImages = [
     {
       src: good1,
       description: '良質豆 1個',
@@ -24,6 +24,10 @@ const App = () => {
       src: bad2,
       description: '良質豆 1個 欠点豆 1個',
     },
+    {
+      src: '',
+      description: 'フリーアップロード',
+    },
   ];
 
   return (
@@ -32,11 +36,11 @@ const App = () => {
         {/* トップ画面 */}
         <TopMenu />
         {/* サンプル画面 */}
-        {images.map((image, index) => (
+        {sampleImages.map((sampleImage, index) => (
           <UploadImage
             key={index}
-            src={image.src}
-            description={image.description}
+            src={sampleImage.src}
+            description={sampleImage.description}
             imageNumber={index + 1}
           />
         ))}

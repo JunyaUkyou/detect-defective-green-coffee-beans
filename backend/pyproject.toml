@@ -11,12 +11,16 @@ fastapi = "^0.115.0"
 uvicorn = {extras = ["standard"], version = "^0.30.6"}
 python-multipart = "^0.0.9"
 pillow = "^10.4.0"
-torch = "^2.4.1"
-torchvision = "^0.19.1"
+torch = { version = "2.4.1+cpu", source = "pytorch" }
+torchvision = { version = "0.19.1+cpu", source = "pytorch" }
 torchmetrics = "^1.4.2"
 pytorch-lightning = "^2.4.0"
 matplotlib = "^3.9.2"
 
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cpu"
+priority = "secondary"
 
 [build-system]
 requires = ["poetry-core"]
