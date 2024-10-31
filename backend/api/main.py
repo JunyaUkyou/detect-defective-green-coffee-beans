@@ -36,7 +36,8 @@ app.add_middleware(
 async def startup_event():
     logger.info("startup event start")
     # アプリ起動時にモデルを読み込む
-    # 初回API起動時にモデル読み込みを行うとAPIのレスポンスが遅くなるため
+    # 推論時に事前学習済みモデルの重みファイルがキャッシュに存在しない場合ダウンロード処理が行われる
+    # 推論時でダウンロード処理が加わるとAPIレスポンスが遅くなるためアプリ起動時にダウンロードを行う
     load_model()
     logger.info("startup event end")
 
