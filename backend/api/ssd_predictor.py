@@ -6,17 +6,29 @@ from .net import Net
 import os
 import matplotlib.pyplot as plt
 
+# グローバル変数としてモデルを宣言
+g_ssd_model = None
+
+def load_model():
+    global g_ssd_model
+    # グローバル変数がNoneの場合、モデルロード
+    if (g_ssd_model == None):
+        # 現在のディレクトリの絶対パスを取得
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        weights_path = os.path.join(current_dir, 'SSD_weights.pth')    
+    
+        # モデルをグローバル変数に読み込み
+        g_ssd_model = Net()
+        g_ssd_model.load_state_dict(torch.load(weights_path, map_location=torch.device('cpu')))
+        g_ssd_model.eval()
+    return g_ssd_model
+
+
 # SSDモデルの推論処理
 def run_ssd_prediction(image):
   
-    # 現在のディレクトリの絶対パスを取得
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    weights_path = os.path.join(current_dir, 'SSD_weights.pth')    
-  
-    # モデルを読み込み
-    model2 = Net()  # NetはSSDの定義済みクラス
-    model2.load_state_dict(torch.load(weights_path, map_location=torch.device('cpu')))
-    model2.eval()
+    # モデルロード
+    model = load_model()
 
     # 前処理
     transform2 = transforms.ToTensor()
@@ -24,7 +36,7 @@ def run_ssd_prediction(image):
 
     # 推論
     with torch.no_grad():
-        y = model2(x)
+        y = model(x)
 
     # 推論結果を描写
     class_names = {
