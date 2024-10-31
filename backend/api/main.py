@@ -14,7 +14,7 @@ import numpy as np
 from logging import getLogger
 
 # 各処理を別ファイルからインポート
-from .ssd_predictor import run_ssd_prediction
+from .ssd_predictor import run_ssd_prediction, load_model
 logger = getLogger("uvicorn.app")
 app = FastAPI()
 
@@ -34,9 +34,11 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup_event():
-    logger.info("Startup event called")
-    # load_model()をここで呼び出すモデルをバックエンド起動時に読み込む
-    #load_model()   
+    logger.info("startup event start")
+    # アプリ起動時にモデルを読み込む
+    # 初回API起動時にモデル読み込みを行うとAPIのレスポンスが遅くなるため
+    load_model()
+    logger.info("startup event end")
 
 @app.post('/ssd')
 async def ssd(file: UploadFile = File(...)):
