@@ -11,10 +11,11 @@ import torch.nn.functional as F
 import torchvision
 from torchvision import transforms
 import numpy as np
+from logging import getLogger
 
 # 各処理を別ファイルからインポート
 from .ssd_predictor import run_ssd_prediction
-
+logger = getLogger("uvicorn.app")
 app = FastAPI()
 
 # 許可するURL
@@ -30,6 +31,12 @@ app.add_middleware(
   allow_methods=["*"],
   allow_headers=["*"],
 )
+
+@app.on_event("startup")
+async def startup_event():
+    logger.info("Startup event called")
+    # load_model()をここで呼び出すモデルをバックエンド起動時に読み込む
+    #load_model()   
 
 @app.post('/ssd')
 async def ssd(file: UploadFile = File(...)):

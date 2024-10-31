@@ -20,7 +20,7 @@ matplotlib = "^3.9.2"
 [[tool.poetry.source]]
 name = "pytorch"
 url = "https://download.pytorch.org/whl/cpu"
-priority = "secondary"
+priority = "supplemental"
 
 [build-system]
 requires = ["poetry-core"]
