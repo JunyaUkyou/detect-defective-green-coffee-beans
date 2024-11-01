@@ -19,6 +19,10 @@ docker compose build
 
 docker compose run --entrypoint "poetry install --no-root" backend
 
+docker compose run --rm frontend npm install
+
+docker compose up -d
+
 ↓不要
 docker compose run \
  --entrypoint "poetry init \
