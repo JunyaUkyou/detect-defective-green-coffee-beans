@@ -4,6 +4,7 @@ import torchmetrics
 import torch.nn.functional as F
 import pytorch_lightning as pl
 from torchvision import transforms
+from torchvision.models.detection import SSD300_VGG16_Weights
 from torchvision.models.detection.ssd import SSDClassificationHead
 from torchvision.models.detection._utils import retrieve_out_channels
 
@@ -11,7 +12,7 @@ class Net(pl.LightningModule):
 
     def __init__(self):
         super().__init__()
-        model = torchvision.models.detection.ssd300_vgg16(pretrained=True)
+        model = torchvision.models.detection.ssd300_vgg16(weights=SSD300_VGG16_Weights.DEFAULT)
 
         class_names = {
           1:"Good Bean (Front)",
