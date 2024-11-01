@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from PIL import Image, ImageDraw
@@ -43,15 +43,19 @@ async def startup_event():
 
 @app.post('/ssd')
 async def ssd(file: UploadFile = File(...)):
-  # 画像を開く
-  image = Image.open(file.file)
-  
-  # 推論
-  result_img = run_ssd_prediction(image)
+  try:
+    # 画像を開く
+    image = Image.open(file.file)
 
-  # バイナリデータとして画像をメモリ上に保存
-  img_io = io.BytesIO()
-  result_img.save(img_io, format='JPEG')
-  img_io.seek(0)
+    # 推論
+    result_img = run_ssd_prediction(image)
 
-  return StreamingResponse(img_io, media_type="image/jpeg")
+    # バイナリデータとして画像をメモリ上に保存
+    img_io = io.BytesIO()
+    result_img.save(img_io, format='JPEG')
+    img_io.seek(0)
+
+    return StreamingResponse(img_io, media_type="image/jpeg")
+  except Exception as e:
+    logger.error(f"ssd Exception Error: {e}")
+    raise HTTPException(status_code=500, detail="Exception Error")
