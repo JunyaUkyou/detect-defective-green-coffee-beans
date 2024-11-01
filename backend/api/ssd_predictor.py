@@ -19,7 +19,7 @@ def load_model():
     
         # モデルをグローバル変数に読み込み
         g_ssd_model = Net()
-        g_ssd_model.load_state_dict(torch.load(weights_path, map_location=torch.device('cpu')))
+        g_ssd_model.load_state_dict(torch.load(weights_path, map_location=torch.device('cpu'), weights_only=True))
         g_ssd_model.eval()
     return g_ssd_model
 
