@@ -5,6 +5,7 @@ import numpy as np
 from .net import Net 
 import os
 import matplotlib.pyplot as plt
+from .constants import CLASS_NAMES
 
 # グローバル変数としてモデルを宣言
 g_ssd_model = None
@@ -38,18 +39,13 @@ def run_ssd_prediction(image):
     with torch.no_grad():
         y = model(x)
 
-    # 推論結果を描写
-    class_names = {
-      1:"良質豆",
-      2:"良質豆",
-      3:"欠点豆(形)",
-      4:"欠点豆(形)",
-    }
-    return visualize(x[0], y[0], class_names)
 
-def visualize(input_tensor, output, class_names):
+    return visualize(x[0], y[0])
+
+def visualize(input_tensor, output):
+    CLASS_NAMES
     image = transforms.ToPILImage()(input_tensor)
-    cmap = plt.cm.get_cmap('hsv', len(class_names) + 1)
+    cmap = plt.cm.get_cmap('hsv', len(CLASS_NAMES) + 1)
 
     boxes = output['boxes'].cpu().detach().numpy()
     labels = output['labels'].cpu().detach().numpy()
@@ -64,7 +60,7 @@ def visualize(input_tensor, output, class_names):
         draw.rectangle(box, outline=color)
 
         # ラベルの描画
-        text = class_names[label]
+        text = CLASS_NAMES[label]
         left, top, right, bottom = font.getbbox(text=text)
         text_height = bottom
         text_width = right - left

@@ -7,6 +7,7 @@ from torchvision import transforms
 from torchvision.models.detection import SSD300_VGG16_Weights
 from torchvision.models.detection.ssd import SSDClassificationHead
 from torchvision.models.detection._utils import retrieve_out_channels
+from .constants import CLASS_NAMES
 
 class Net(pl.LightningModule):
 
@@ -14,17 +15,10 @@ class Net(pl.LightningModule):
         super().__init__()
         model = torchvision.models.detection.ssd300_vgg16(weights=SSD300_VGG16_Weights.DEFAULT)
 
-        class_names = {
-          1:"Good Bean (Front)",
-          2:"Good Bean (Back)",
-          3:"Defective Bean (Front, Shape Defect)",
-          4:"Defective Bean (Back, Shape Defect)",
-        }
-
         # 分類結果を出力する箇所の入れ替え
         in_channels = retrieve_out_channels(model.backbone, (300, 300))  #　入力のチャンネル数
         num_anchors = model.anchor_generator.num_anchors_per_location()  # アンカーの数
-        num_classes=len(class_names)+1  # 分類数: 背景も含めて分類するため1を加える
+        num_classes=len(CLASS_NAMES)+1  # 分類数: 背景も含めて分類するため1を加える
         model.head.classification_head = SSDClassificationHead(in_channels, num_anchors, num_classes)
 
 
