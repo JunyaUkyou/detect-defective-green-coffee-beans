@@ -7,8 +7,8 @@ import io
 from logging import getLogger
 
 # 別ファイルからインポート
+from .routers import ssd
 from services.ssd import ssd_predictor # SSD処理関連
-from .validate import validate_image   # バリデーション
 from core.config import FRONTEND_URL   # 設定値
 
 
@@ -38,21 +38,5 @@ async def startup_event():
     ssd_predictor.load_model()
     logger.info("startup event end")
 
-@app.post('/ssd')
-async def ssd(file: UploadFile = Depends(validate_image)):
-  try:
-    # 画像を開く
-    image = Image.open(file.file)
-
-    # 推論
-    result_img = ssd_predictor.run_ssd_prediction(image)
-
-    # バイナリデータとして画像をメモリ上に保存
-    img_io = io.BytesIO()
-    result_img.save(img_io, format='JPEG')
-    img_io.seek(0)
-
-    return StreamingResponse(img_io, media_type="image/jpeg")
-  except Exception as e:
-    logger.error(f"ssd Exception Error: {e}")
-    raise HTTPException(status_code=500, detail="Exception Error")
+# ルーターの登録
+app.include_router(ssd.router)
