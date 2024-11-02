@@ -1,7 +1,6 @@
 
 # パッケージインポート
 from fastapi import Depends, APIRouter,  UploadFile, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from PIL import Image
 import io
@@ -10,10 +9,6 @@ from logging import getLogger
 # 別ファイルからインポート
 from services.ssd import ssd_predictor # SSD処理関連
 from ..validate import validate_image  # バリデーション
-from core.config import FRONTEND_URL   # 設定値
-
-
-logger = getLogger("uvicorn.app")
 
 router = APIRouter()
 
@@ -33,5 +28,6 @@ async def ssd(file: UploadFile = Depends(validate_image)):
 
     return StreamingResponse(img_io, media_type="image/jpeg")
   except Exception as e:
+    logger = getLogger("uvicorn.app")
     logger.error(f"ssd Exception Error: {e}")
     raise HTTPException(status_code=500, detail="Exception Error")
