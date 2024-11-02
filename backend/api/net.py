@@ -7,7 +7,7 @@ from torchvision import transforms
 from torchvision.models.detection import ssd300_vgg16, SSD300_VGG16_Weights
 from torchvision.models.detection.ssd import SSDClassificationHead
 from torchvision.models.detection._utils import retrieve_out_channels
-from .constants import CLASS_NAMES
+from .constants import CLASS_NAMES, IOU_THRESHOLD, SCORE_THRESHOLD
 
 class Net(pl.LightningModule):
 
@@ -39,24 +39,14 @@ class Net(pl.LightningModule):
         else:
             outputs = self.ssd300(x)
 
-            # しきい値を設定
-            iou_threshold = 0.5
-            score_threshold = 0.5
             # NMSの適用
             for i in range(len(outputs)):
                 boxes = outputs[i]['boxes']
                 scores = outputs[i]['scores']
                 labels = outputs[i]['labels']
 
-                # NMS適用前のインデックス数
-                # (検出されたbbox数, 座標（x1, y1, x2, y2）)
-                total_count = boxes.shape[0]
-
-                # IoU閾値0.5でNMSを適用
-                keep = torchvision.ops.nms(boxes, scores, iou_threshold=iou_threshold)
-
-                # NMS適用前後のインデックス数を記録
-                #print(f'Batch {i}: NMS 適用前:{total_count}  適用後:{len(keep)}')
+                # IoU閾値でNMSを適用
+                keep = torchvision.ops.nms(boxes, scores, iou_threshold=IOU_THRESHOLD)
 
                 # NMS後のボックス、スコア、ラベルを残す
                 boxes = boxes[keep]
@@ -64,7 +54,7 @@ class Net(pl.LightningModule):
                 labels = labels[keep]
 
                 # スコアしきい値を適用して、低スコアのバウンディングボックスを除去
-                score_keep = scores >= score_threshold
+                score_keep = scores >= SCORE_THRESHOLD
 
                 # NMS後のボックス、スコア、ラベルを残す
                 outputs[i]['boxes'] = boxes[score_keep]

@@ -5,3 +5,6 @@ CLASS_NAMES = {
     3: "欠点豆(形)", # 表 
     4: "欠点豆(形)", # 裏
 }
+
+IOU_THRESHOLD = 0.5
+SCORE_THRESHOLD = 0.5
