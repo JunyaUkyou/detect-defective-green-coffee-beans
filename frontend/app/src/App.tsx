@@ -1,5 +1,5 @@
 import './App.css';
-import TopMenu from './TopMenu';
+import TopContent from './TopContent';
 import UploadImage from './UploadImage';
 import good1 from './assets/2EB011BF-CAA1-4470-9376-2E42A8B87CDE_1_105_c.jpeg';
 import good2 from './assets/4A0389F9-050D-4FF2-9230-1B434ACB44DE_4_5005_c.jpeg';
@@ -32,9 +32,9 @@ const App = () => {
 
   return (
     <>
-      <div className="upload-container">
-        {/* トップ画面 */}
-        <TopMenu />
+      <div className="container">
+        {/* トップコンテンツ */}
+        <TopContent />
         {/* サンプル画面 */}
         {sampleImages.map((sampleImage, index) => (
           <UploadImage

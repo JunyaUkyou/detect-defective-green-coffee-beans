@@ -4,45 +4,48 @@ body {
 }
 
 #root {
-  max-width: 1280px;
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
 }
 
-.upload-container {
+.container {
   width: 100%;
 }
 
-.fileUpload {
+.top-container {
   background-color: rgb(250, 250, 250);
   border: 1px solid #dbdbda;
   border-radius: 30px;
   display: flex;
   justify-content: space-around;
   padding: 50px 0;
-  text-align: center;
 }
 
-.top-center {
+/*
+.top-wrapper {
   display: flex;
   flex-flow: column;
   justify-content: space-around;
 }
+  */
 
-.coffee {
+.top-images {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  padding: 10px 0;
 }
 
-.coffee-cap {
+.coffee-cap-image {
+  width: 100px;
+  padding: 70px 0;
+}
+
+.parson-image {
   width: 100px;
 }
 
-.parson {
-  width: 100px;
-}
-
-.aaa {
+.top-text {
   font-size: 24px;
   font-weight: 300;
   letter-spacing: 0.3em;
