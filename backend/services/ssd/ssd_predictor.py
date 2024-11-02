@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 # 別ファイルからインポート
 from .net import Net               # ネットワーク
-from .constants import CLASS_NAMES # 定数
+from .constants import CLASS_NAMES  # 定数
 
 # グローバル変数としてモデルを宣言
 g_ssd_model = None
@@ -31,11 +31,13 @@ def load_model():
 
         # モデルの重みファイルパス取得
         current_dir = os.path.dirname(os.path.abspath(__file__))    # 現在の絶対パス取得
-        weights_path = os.path.join(current_dir, 'SSD_weights.pth') # 絶対パスを元に重みファイルパス取得
-    
+        weights_path = os.path.join(
+            current_dir, 'SSD_weights.pth')  # 絶対パスを元に重みファイルパス取得
+
         # モデルをグローバル変数に読み込み
         g_ssd_model = Net()
-        g_ssd_model.load_state_dict(torch.load(weights_path, map_location=torch.device('cpu'), weights_only=True))
+        g_ssd_model.load_state_dict(torch.load(
+            weights_path, map_location=torch.device('cpu'), weights_only=True))
         g_ssd_model.eval()
     return g_ssd_model
 
@@ -85,9 +87,9 @@ def visualize(input_tensor, output):
     戻り値:
         PIL.Image: バウンディングボックスとラベルが描画された画像。
     """
-    
+
     # 画像に推論結果を描画できる状態に変換
-    image = transforms.ToPILImage()(input_tensor) # PIL形式に変換
+    image = transforms.ToPILImage()(input_tensor)  # PIL形式に変換
     draw = ImageDraw.Draw(image)                  # 描画オブジェクトに変換
 
     # バウンディングボックスとラベルの抽出
@@ -97,25 +99,27 @@ def visualize(input_tensor, output):
     # 描画に使用するフォント取得
     font_size = 16
     font = ImageFont.truetype('fonts/NotoSansCJKjp-Bold.otf', font_size)
-    
+
     # 描画に使用するカラーマップ取得
-    color_map = plt.cm.get_cmap('hsv', len(CLASS_NAMES) + 1) # ラベル数分取得
+    color_map = plt.cm.get_cmap('hsv', len(CLASS_NAMES) + 1)  # ラベル数分取得
 
     # バウンディングボックスとラベルの描画
     for box, label in zip(boxes, labels):
         # バウンディングボックスの描画
-        color = color_map(label, bytes=True) # カラーマップからラベルに応じた色を取得
+        color = color_map(label, bytes=True)  # カラーマップからラベルに応じた色を取得
         draw.rectangle(box, outline=color)   # バウンディングボックスの描画
-        
+
         # 描画するラベル名を取得
         text = CLASS_NAMES[label]
-        
+
         # ラベルの背景となる短形の描写
-        left, top, right, bottom = font.getbbox(text=text) # 描画するラベル名に必要な領域を短形の座標で取得
+        left, top, right, bottom = font.getbbox(
+            text=text)  # 描画するラベル名に必要な領域を短形の座標で取得
         text_height = bottom                               # ラベル背景の短形の高さを取得
         text_width = right - left                          # ラベル背景の短形の幅を取得
-        draw.rectangle([box[0], box[1], box[0]+text_width, box[1]+text_height], fill=color)
-        
+        draw.rectangle([box[0], box[1], box[0]+text_width,
+                       box[1]+text_height], fill=color)
+
         # ラベルの描画
         draw.text((box[0], box[1]), text, font=font, fill='white')
 

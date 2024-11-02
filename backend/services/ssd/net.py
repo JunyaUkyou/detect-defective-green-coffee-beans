@@ -10,6 +10,7 @@ from torchvision.models.detection._utils import retrieve_out_channels
 # 別ファイルからインポート
 from .constants import CLASS_NAMES, IOU_THRESHOLD, SCORE_THRESHOLD
 
+
 class Net(pl.LightningModule):
 
     def __init__(self):
@@ -18,11 +19,12 @@ class Net(pl.LightningModule):
         model = ssd300_vgg16(weights=SSD300_VGG16_Weights.DEFAULT)
 
         # 分類結果を出力する箇所の入れ替え
-        in_channels = retrieve_out_channels(model.backbone, (300, 300))  #　入力のチャンネル数
+        in_channels = retrieve_out_channels(
+            model.backbone, (300, 300))  # 　入力のチャンネル数
         num_anchors = model.anchor_generator.num_anchors_per_location()  # アンカーの数
-        num_classes=len(CLASS_NAMES)+1  # 分類数: 背景も含めて分類するため1を加える
-        model.head.classification_head = SSDClassificationHead(in_channels, num_anchors, num_classes)
-
+        num_classes = len(CLASS_NAMES)+1  # 分類数: 背景も含めて分類するため1を加える
+        model.head.classification_head = SSDClassificationHead(
+            in_channels, num_anchors, num_classes)
 
         # すべてのパラメータを凍結
         for param in model.parameters():
@@ -47,7 +49,8 @@ class Net(pl.LightningModule):
                 labels = outputs[i]['labels']
 
                 # IoU閾値でNMSを適用
-                keep = torchvision.ops.nms(boxes, scores, iou_threshold=IOU_THRESHOLD)
+                keep = torchvision.ops.nms(
+                    boxes, scores, iou_threshold=IOU_THRESHOLD)
 
                 # NMS後のボックス、スコア、ラベルを残す
                 boxes = boxes[keep]
@@ -68,11 +71,13 @@ class Net(pl.LightningModule):
         x, t = batch
         losses = self(x, t)
         loss = sum(losses.values())
-        self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
+        self.log('train_loss', loss, on_step=True,
+                 on_epoch=True, prog_bar=True)
         return loss
 
     def configure_optimizers(self):
         params = [p for p in self.ssd300.parameters() if p.requires_grad]
         optimizer = torch.optim.Adam(params)
-        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5)
+        scheduler = torch.optim.lr_scheduler.StepLR(
+            optimizer, step_size=5, gamma=0.5)
         return [optimizer], [scheduler]
