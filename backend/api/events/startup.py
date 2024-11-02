@@ -2,10 +2,11 @@
 from logging import getLogger
 
 # 別ファイルからインポート
-from services.ssd import ssd_predictor # SSD処理関連
+from services.ssd import ssd_predictor  # SSD処理関連
 from core.config import FRONTEND_URL   # 設定値
 
 logger = getLogger("uvicorn.app")
+
 
 async def load_ssd():
     """
