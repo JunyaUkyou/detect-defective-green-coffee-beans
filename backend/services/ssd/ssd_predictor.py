@@ -2,7 +2,6 @@
 import torch
 from torchvision import transforms
 from PIL import ImageDraw, ImageFont
-import numpy as np
 import os
 import matplotlib.pyplot as plt
 
@@ -13,8 +12,19 @@ from .constants import CLASS_NAMES # 定数
 # グローバル変数としてモデルを宣言
 g_ssd_model = None
 
-# モデルロード関数
+
 def load_model():
+    """
+    SSDモデルをロードし、グローバル変数に保存する関数。
+
+    事前学習済みのSSDモデルをロードし、`g_ssd_model`に格納します。
+    既にモデルがロードされている場合は再読み込みを行いません。
+    モデルの重みは、スクリプトのあるディレクトリの`SSD_weights.pth`ファイルから読み込まれます。
+
+    戻り値:
+        torch.nn.Module: SSDモデルを格納したネットワークインスタンス。
+    """
+
     # グローバル変数がNoneの場合モデルロード
     global g_ssd_model
     if (g_ssd_model == None):
@@ -29,8 +39,22 @@ def load_model():
         g_ssd_model.eval()
     return g_ssd_model
 
-# SSDモデルの推論関数
+
 def run_ssd_prediction(image):
+    """
+    画像に対してSSDモデルによる推論を実行し、結果を可視化した画像を返す関数。
+
+    入力画像をSSDモデルで推論し、推論結果に基づいてバウンディングボックスとラベルを描画した
+    画像を生成して返します。内部で`load_model`を用いてモデルをロードし、画像をTensor形式に
+    変換した上で推論を行います。
+
+    パラメータ:
+        image (PIL.Image): 入力画像。
+
+    戻り値:
+        PIL.Image: 推論結果が描画された画像。
+    """
+
     # モデルロード
     model = load_model()
 
@@ -45,8 +69,23 @@ def run_ssd_prediction(image):
     # 推論結果を可視化した画像を返却
     return visualize(x[0], y[0])
 
-# 推論結果の可視化関数
+
 def visualize(input_tensor, output):
+    """
+    推論結果のバウンディングボックスとラベルを画像に描画する関数。
+
+    SSDモデルの出力に含まれるバウンディングボックスとラベルをPIL画像上に描画し、
+    カラーコードはラベルに基づくカラーマップで表示します。
+    描画には日本語フォントを使用します。
+
+    パラメータ:
+        input_tensor (torch.Tensor): モデルの入力テンソル。
+        output (dict): モデルの出力結果で、`boxes`と`labels`が含まれる辞書。
+
+    戻り値:
+        PIL.Image: バウンディングボックスとラベルが描画された画像。
+    """
+    
     # 画像に推論結果を描画できる状態に変換
     image = transforms.ToPILImage()(input_tensor) # PIL形式に変換
     draw = ImageDraw.Draw(image)                  # 描画オブジェクトに変換
