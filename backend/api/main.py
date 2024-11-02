@@ -3,9 +3,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 # 別ファイルからインポート
-from .events import startup
-from .routers import ssd
-from core.config import FRONTEND_URL   # 設定値
+from .events import startup          # イベント
+from .routers import ssd             # ルーティング
+from core.config import FRONTEND_URL # 設定値
 
 app = FastAPI()
 
@@ -24,7 +24,7 @@ app.add_middleware(
 )
 
 # イベントの登録
-app.add_event_handler("startup", startup.load_ssd)
+app.add_event_handler("startup", startup.load_ssd) # 起動時に実行する
 
 # ルーターの登録
 app.include_router(ssd.router)
