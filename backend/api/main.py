@@ -7,9 +7,9 @@ import io
 from logging import getLogger
 
 # 別ファイルからインポート
-from .ssd_predictor import run_ssd_prediction, load_model # SSD処理関連
-from .validate import validate_image                      # バリデーション
-from core.config import FRONTEND_URL                      # 設定値
+from services.ssd import ssd_predictor # SSD処理関連
+from .validate import validate_image   # バリデーション
+from core.config import FRONTEND_URL   # 設定値
 
 
 logger = getLogger("uvicorn.app")
@@ -35,7 +35,7 @@ async def startup_event():
     # アプリ起動時にモデルを読み込む
     # 推論時に事前学習済みモデルの重みファイルがキャッシュに存在しない場合ダウンロード処理が行われる
     # 推論時でダウンロード処理が加わるとAPIレスポンスが遅くなるためアプリ起動時にダウンロードを行う
-    load_model()
+    ssd_predictor.load_model()
     logger.info("startup event end")
 
 @app.post('/ssd')
@@ -45,7 +45,7 @@ async def ssd(file: UploadFile = Depends(validate_image)):
     image = Image.open(file.file)
 
     # 推論
-    result_img = run_ssd_prediction(image)
+    result_img = ssd_predictor.run_ssd_prediction(image)
 
     # バイナリデータとして画像をメモリ上に保存
     img_io = io.BytesIO()
