@@ -9,6 +9,7 @@ from logging import getLogger
 # 各処理を別ファイルからインポート
 from .ssd_predictor import run_ssd_prediction, load_model
 from .validate import validate_image
+from .config import FRONTEND_URL
 
 
 logger = getLogger("uvicorn.app")
@@ -16,7 +17,7 @@ app = FastAPI()
 
 # 許可するURL
 origins = [
-  "http://localhost:5173", # フロントエンドのURL
+  FRONTEND_URL, # フロントエンドのURL
 ]
 
 # CORS 設定を追加
