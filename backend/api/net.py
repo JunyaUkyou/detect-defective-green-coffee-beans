@@ -1,3 +1,4 @@
+# パッケージインポート
 import torch
 import torchvision
 import torch.nn.functional as F
@@ -5,6 +6,8 @@ import pytorch_lightning as pl
 from torchvision.models.detection import ssd300_vgg16, SSD300_VGG16_Weights
 from torchvision.models.detection.ssd import SSDClassificationHead
 from torchvision.models.detection._utils import retrieve_out_channels
+
+# 別ファイルからインポート
 from .constants import CLASS_NAMES, IOU_THRESHOLD, SCORE_THRESHOLD
 
 class Net(pl.LightningModule):

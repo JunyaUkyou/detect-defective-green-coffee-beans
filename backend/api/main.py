@@ -6,10 +6,10 @@ from PIL import Image
 import io
 from logging import getLogger
 
-# 各処理を別ファイルからインポート
-from .ssd_predictor import run_ssd_prediction, load_model
-from .validate import validate_image
-from .config import FRONTEND_URL
+# 別ファイルからインポート
+from .ssd_predictor import run_ssd_prediction, load_model # SSD処理関連
+from .validate import validate_image                      # バリデーション
+from .config import FRONTEND_URL                          # 設定値
 
 
 logger = getLogger("uvicorn.app")

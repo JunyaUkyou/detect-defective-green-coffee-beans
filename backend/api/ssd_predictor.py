@@ -6,9 +6,9 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-# 定数、モデル等、インポート
-from .net import Net
-from .constants import CLASS_NAMES
+# 別ファイルからインポート
+from .net import Net               # ネットワーク
+from .constants import CLASS_NAMES # 定数
 
 # グローバル変数としてモデルを宣言
 g_ssd_model = None
