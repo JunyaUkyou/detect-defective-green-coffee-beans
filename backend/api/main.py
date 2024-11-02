@@ -1,5 +1,5 @@
 # パッケージインポート
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import Depends, FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from PIL import Image
@@ -8,6 +8,9 @@ from logging import getLogger
 
 # 各処理を別ファイルからインポート
 from .ssd_predictor import run_ssd_prediction, load_model
+from .validate import validate_image
+
+
 logger = getLogger("uvicorn.app")
 app = FastAPI()
 
@@ -35,7 +38,7 @@ async def startup_event():
     logger.info("startup event end")
 
 @app.post('/ssd')
-async def ssd(file: UploadFile = File(...)):
+async def ssd(file: UploadFile = Depends(validate_image)):
   try:
     # 画像を開く
     image = Image.open(file.file)
