@@ -1,16 +1,9 @@
+# パッケージインポート
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
-from PIL import Image, ImageDraw
+from PIL import Image
 import io
-import json
-import os
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-import torchvision
-from torchvision import transforms
-import numpy as np
 from logging import getLogger
 
 # 各処理を別ファイルからインポート
