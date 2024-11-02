@@ -14,6 +14,22 @@ router = APIRouter()
 
 @router.post('/ssd')
 async def ssd(file: UploadFile = Depends(validate_image)):
+  """
+  画像ファイルを受け取り、SSDモデルで物体検出を行い、推論結果を画像として返すエンドポイント。
+
+  このエンドポイントは、アップロードされた画像ファイルをSSDモデルで処理し、
+  検出された物体をバウンディングボックスで描画した画像をJPEG形式でストリームとして返します。
+
+  パラメータ:
+    file (UploadFile): アップロードされた画像ファイル。`validate_image`依存関数で
+    バリデーションチェックを行う。
+
+  戻り値:
+    StreamingResponse: 推論結果が描画された画像のストリーミングレスポンスをJPEG形式で返す。
+
+  例外:
+    HTTPException: 処理中にエラーが発生した場合、500ステータスコードとエラーメッセージを返す。
+  """
   try:
     # 画像を開く
     image = Image.open(file.file)
