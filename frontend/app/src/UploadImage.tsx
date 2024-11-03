@@ -68,7 +68,14 @@ const UploadImage: React.FC<UploadImageProps> = ({
           ) : (
             <div className="upload-left">
               <img src={previewUrl} alt="Uploaded" className="ai-image" />
-              <button onClick={onClickSubmit}>推論する</button>
+              <div className="run-prediction">
+                <button
+                  className="run-prediction-button"
+                  onClick={onClickSubmit}
+                >
+                  推論する
+                </button>
+              </div>
             </div>
           )}
           {/* 推論結果 */}

@@ -118,11 +118,41 @@ body {
   margin-left: 10px; /*はみ出ないように調整*/
   margin-right: 10px; /*はみ出ないように調整*/
   padding: 1em 1em 1em 2em;
+  letter-spacing: 0.1em;
 }
 
 .how-to-use-list .how-to-use-list-item {
   line-height: 1.5;
   padding: 0.5em 0;
+}
+
+/* 推論 */
+.run-prediction {
+  margin-top: 20px;
+}
+.run-prediction-button {
+  background: rgba(229 192 70 / 0.4);
+  border: 1px solid rgba(229 192 70 / 0.4);
+  border-radius: 30px;
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  padding: 10px 25px;
+  color: rgb(118, 116, 116);
+  text-decoration: none;
+  transition: 0.3s ease-in-out;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  cursor: pointer;
+}
+
+.run-prediction-button:hover {
+  background: rgb(118, 116, 116);
+  border: 1px solid rgb(118, 116, 116);
+  color: rgba(229 192 70 / 0.4);
 }
 
 .upload-result {
