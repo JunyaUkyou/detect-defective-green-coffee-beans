@@ -4,8 +4,8 @@ const TopContent = () => {
       <div className="top-container">
         <div className="top-wrapper">
           <p className="top-text">
-            コーヒー豆の<span className="emphasis">欠点豆を検出する</span>
-            サイトです
+            コーヒー生豆の<span className="emphasis">欠点豆</span>
+            を検出します
           </p>
           <div className="top-images">
             <img src="/public/images/4307_color.png" className="parson-image" />
