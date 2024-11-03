@@ -180,8 +180,13 @@ body {
 
 .upload-label {
   display: inline-block;
-  width: 150px;
+  width: 300px;
   height: auto;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #e5c046;
+  border-radius: 30px;
+  cursor: pointer;
 }
 
 .image-upload {

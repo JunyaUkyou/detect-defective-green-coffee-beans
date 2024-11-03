@@ -56,6 +56,11 @@ const UploadImage: React.FC<UploadImageProps> = ({
           {previewUrl === '' ? (
             <div className="upload-left">
               <label className="upload-label">
+                <img
+                  src="/public/images/upload.png"
+                  alt="Uploaded"
+                  className="ai-image"
+                />
                 <input
                   name="file"
                   type="file"
