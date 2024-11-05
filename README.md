@@ -4,13 +4,13 @@
 
 ![localhost_5173_](https://github.com/user-attachments/assets/4b0e66cc-2794-4b73-9b63-c568f7fbc921)
 
-
 ## 目次
 
 1. [プロジェクトについて](#プロジェクトについて)
 2. [環境構築](#環境構築)
 3. [アプリケーションの操作方法](#アプリケーションの操作方法)
 4. [ディレクトリ構成](#ディレクトリ構成)
+5. [トラブルシューティング](#トラブルシューティング)
 
 ## プロジェクトについて
 
@@ -169,3 +169,7 @@ http://localhost:8000/docs
         └── vite.config.ts
 
 ```
+
+## トラブルシューティング
+
+- mac の場合、Docker の設定で「Use Virtualization framework」にチェックがついていると起動しない場合があります<a href="https://qiita.com/takumisenaha00/items/62f0a8f184240c2b3aca">参考</a>
