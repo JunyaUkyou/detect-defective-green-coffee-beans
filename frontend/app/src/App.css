@@ -180,6 +180,9 @@ body {
 
 .ai-image {
   border-radius: 30px;
+  object-fit: cover;
+  width: 300px;
+  height: 300px;
 }
 
 .upload-label {

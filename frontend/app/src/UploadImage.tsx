@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PredictionDescription from './PredictionDescription';
 import ErrorMessage from './ErrorMessage';
+import PredictionTarget from './PredictionTarget';
 import PredictionResult from './PredictionResult';
 import { PredictImage } from './hooks/PredictImage';
 
@@ -21,8 +22,6 @@ const UploadImage: React.FC<UploadImageProps> = ({
 
   // 推論中フラグ、推論結果画像URL、推論実施関数
   const { isPredicting, predictionImageUrl, runPrediction } = PredictImage();
-  // 画像No
-  const paddedImageNumber = String(imageNumber).padStart(2, '0');
 
   useEffect(() => {
     if (src) {
@@ -74,62 +73,24 @@ const UploadImage: React.FC<UploadImageProps> = ({
   return (
     <>
       <div className="upload-image">
+        {/* 推論の概要 */}
         <PredictionDescription
           imageNumber={imageNumber}
           description={description}
         />
+        {/* エラーメッセージ */}
         <ErrorMessage message={ApiError} />
+
         <div className="upload-result">
-          {previewUrl === '' ? (
-            <div className="upload-left">
-              <label className="upload-label">
-                <img
-                  src="/public/images/upload.png"
-                  alt="Uploaded"
-                  className="ai-image"
-                />
-              </label>
-              <div className="run-prediction">
-                <label>
-                  <input
-                    id="file-upload-element"
-                    name="file"
-                    type="file"
-                    className="image-upload"
-                    accept="image/*"
-                    onChange={onChangeFile}
-                    style={{ display: 'none' }}
-                  />
-                  <button
-                    className="run-prediction-button"
-                    onClick={fileUpload}
-                  >
-                    ファイルアップロード
-                  </button>
-                </label>
-              </div>
-            </div>
-          ) : (
-            <div className="upload-left">
-              <img src={previewUrl} alt="Uploaded" className="ai-image" />
-              <div className="run-prediction">
-                <button
-                  className="run-prediction-button"
-                  onClick={onClickSubmit}
-                >
-                  推論する
-                </button>
-                {src === '' && (
-                  <button
-                    className="run-prediction-button"
-                    onClick={fileDelete}
-                  >
-                    ファイル削除
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
+          <PredictionTarget
+            onClickSubmit={onClickSubmit}
+            onChangeFile={onChangeFile}
+            fileUpload={fileUpload}
+            fileDelete={fileDelete}
+            src={src}
+            previewUrl={previewUrl}
+          />
+
           {/* 推論結果 */}
           <PredictionResult
             isPredicting={isPredicting}

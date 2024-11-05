@@ -1,0 +1,67 @@
+import React from 'react';
+
+interface PredictionTargetProps {
+  previewUrl: string;
+  onChangeFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClickSubmit: () => Promise<void>;
+  fileUpload: () => void;
+  fileDelete: () => void;
+  src: string;
+}
+
+const PredictionTarget: React.FC<PredictionTargetProps> = ({
+  previewUrl,
+  onChangeFile,
+  onClickSubmit,
+  fileUpload,
+  fileDelete,
+  src,
+}) => {
+  return (
+    <>
+      {previewUrl === '' ? (
+        <div className="upload-left">
+          <label className="upload-label">
+            <img
+              src="/public/images/upload.png"
+              alt="Uploaded"
+              className="ai-image"
+            />
+          </label>
+          <div className="run-prediction">
+            <label>
+              <input
+                id="file-upload-element"
+                name="file"
+                type="file"
+                className="image-upload"
+                accept="image/*"
+                onChange={onChangeFile}
+                style={{ display: 'none' }}
+              />
+              <button className="run-prediction-button" onClick={fileUpload}>
+                ファイルアップロード
+              </button>
+            </label>
+          </div>
+        </div>
+      ) : (
+        <div className="upload-left">
+          <img src={previewUrl} alt="Uploaded" className="ai-image" />
+          <div className="run-prediction">
+            <button className="run-prediction-button" onClick={onClickSubmit}>
+              推論する
+            </button>
+            {src === '' && (
+              <button className="run-prediction-button" onClick={fileDelete}>
+                ファイル削除
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default PredictionTarget;
