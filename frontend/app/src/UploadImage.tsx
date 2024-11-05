@@ -44,9 +44,17 @@ const UploadImage: React.FC<UploadImageProps> = ({
   };
 
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setApiError('');
     const files = e.target.files;
     if (files && files[0]) {
       const selectedFile = files[0];
+      console.log({ selectedFile });
+      const type = selectedFile.type.split('/');
+      console.log({ type });
+      if (type[0] !== 'image') {
+        setApiError('画像ファイルをアップロードしてください');
+        return;
+      }
       setFile(selectedFile);
       const objectUrl = URL.createObjectURL(selectedFile); // プレビュー用のURLを生成
       setPreviewUrl(objectUrl);
