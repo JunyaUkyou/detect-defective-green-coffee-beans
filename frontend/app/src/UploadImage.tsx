@@ -18,7 +18,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>(''); // プレビュー画像のURL
-  const [ApiError, setApiError] = useState<string>(''); // プレビュー画像のURL
+  const [predictionError, setPredictionError] = useState<string>(''); // プレビュー画像のURL
 
   // 推論中フラグ、推論結果画像URL、推論実施関数
   const { isPredicting, predictionImageUrl, runPrediction } = PredictImage();
@@ -32,19 +32,19 @@ const UploadImage: React.FC<UploadImageProps> = ({
   // 推論実施関数
   const onClickSubmit = async () => {
     try {
-      setApiError('');
+      setPredictionError('');
       await runPrediction(previewUrl);
     } catch (e: unknown) {
       if (e instanceof Error) {
-        setApiError(e.message);
+        setPredictionError(e.message);
       } else {
-        setApiError('例外発生');
+        setPredictionError('例外発生');
       }
     }
   };
 
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setApiError('');
+    setPredictionError('');
     const files = e.target.files;
     if (files && files[0]) {
       const selectedFile = files[0];
@@ -52,7 +52,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
       const type = selectedFile.type.split('/');
       console.log({ type });
       if (type[0] !== 'image') {
-        setApiError('画像ファイルをアップロードしてください');
+        setPredictionError('画像ファイルをアップロードしてください');
         return;
       }
       setFile(selectedFile);
@@ -79,7 +79,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
           description={description}
         />
         {/* エラーメッセージ */}
-        <ErrorMessage message={ApiError} />
+        <ErrorMessage message={predictionError} />
 
         <div className="upload-result">
           {/* 推論対象画像 */}
