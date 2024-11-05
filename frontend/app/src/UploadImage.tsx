@@ -25,6 +25,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
   // 推論中フラグ、推論結果画像URL、推論実施関数
   const { isPredicting, predictionImageUrl, runPrediction } = PredictImage();
 
+  // 初期処理
   useEffect(() => {
     if (src) {
       setPreviewUrl(src);
@@ -45,22 +46,29 @@ const UploadImage: React.FC<UploadImageProps> = ({
     }
   };
 
+  // ファイルアップロード
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPredictionError('');
     const files = e.target.files;
     if (files && files[0]) {
       const selectedFile = files[0];
-      console.log({ selectedFile });
-      const type = selectedFile.type.split('/');
-      console.log({ type });
-      if (type[0] !== 'image') {
-        setPredictionError('画像ファイルをアップロードしてください');
+      if (!validatePredictionTarget(selectedFile)) {
         return;
       }
       setFile(selectedFile);
       const objectUrl = URL.createObjectURL(selectedFile); // プレビュー用のURLを生成
       setPreviewUrl(objectUrl);
     }
+  };
+
+  // ファイルアップロードバリデーション
+  const validatePredictionTarget = (target: File) => {
+    const type = target.type.split('/');
+    if (type[0] !== 'image') {
+      setPredictionError('画像ファイルをアップロードしてください');
+      return false;
+    }
+    return true;
   };
 
   const fileUpload = () => {
