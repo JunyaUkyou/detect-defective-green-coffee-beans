@@ -12,7 +12,7 @@
 4. [ディレクトリ構成](#ディレクトリ構成)
 5. [トラブルシューティング](#トラブルシューティング)
 
-## プロジェクトについて
+## 1. プロジェクトについて
 
 ### SSD を用いたコーヒー生豆欠点豆の検出
 
@@ -36,7 +36,7 @@
 - 欠点豆 色不正の検出（色不正のコーヒー豆が集まれば実装）
 - ファインチューニング等、精度向上（現状は転移学習で一定の精度が出たため、転移学習としてる。）
 
-## 環境構築
+## 2. 環境構築
 
 detect-defective-green-coffee-beans 直下（docker-compose.yml がある所）で以下コマンドを実行する
 
@@ -72,7 +72,7 @@ docker compose up -d
 docker compose down
 ```
 
-## アプリケーションの操作方法
+## 3. アプリケーションの操作方法
 
 ### 画面 URL
 
@@ -86,7 +86,7 @@ http://localhost:5173/
 http://localhost:8000/docs
 ```
 
-## ディレクトリ構成
+## 4. ディレクトリ構成
 
 ```
 .
@@ -170,6 +170,6 @@ http://localhost:8000/docs
 
 ```
 
-## トラブルシューティング
+## 5. トラブルシューティング
 
 - mac の場合、Docker の設定で「Use Virtualization framework」にチェックがついていると起動しない場合があります<a href="https://qiita.com/takumisenaha00/items/62f0a8f184240c2b3aca">参考</a>
