@@ -35,6 +35,11 @@ async def ssd(file: UploadFile = Depends(validate_image)):
         # 画像を開く
         image = Image.open(file.file)
 
+        # 画像サイズが300より大きい場合はリサイズ
+        if (image.width > 300):
+            new_size = (300, 300)
+            image = image.resize(new_size)
+
         # 推論
         result_img = ssd_predictor.run_ssd_prediction(image)
 
