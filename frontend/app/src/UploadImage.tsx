@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ErrorMessage from './ErrorMessage';
 import PredictionResult from './PredictionResult';
 import { PredictImage } from './hooks/PredictImage';
 
@@ -59,10 +60,16 @@ const UploadImage: React.FC<UploadImageProps> = ({
       setPreviewUrl(objectUrl);
     }
   };
+
   const fileUpload = () => {
     const uploadElement = document.getElementById('file-upload-element');
     uploadElement!.click();
   };
+
+  const fileDelete = () => {
+    setPreviewUrl('');
+  };
+
   return (
     <>
       <div className="upload-image">
@@ -71,11 +78,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
             <span>{description}</span>
           </h3>
         </div>
-        {ApiError !== '' && (
-          <div className="api-error">
-            <p className="api-error-text">{ApiError}</p>
-          </div>
-        )}
+        <ErrorMessage message={ApiError} />
         <div className="upload-result">
           {previewUrl === '' ? (
             <div className="upload-left">
@@ -116,6 +119,14 @@ const UploadImage: React.FC<UploadImageProps> = ({
                 >
                   推論する
                 </button>
+                {src === '' && (
+                  <button
+                    className="run-prediction-button"
+                    onClick={fileDelete}
+                  >
+                    ファイル削除
+                  </button>
+                )}
               </div>
             </div>
           )}
