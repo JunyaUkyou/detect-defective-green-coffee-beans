@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PredictionDescription from './PredictionDescription';
 import ErrorMessage from './ErrorMessage';
-import PredictionTarget from './PredictionTarget';
+import PredictionTargetEmpty from './PredictionTargetEmpty';
+import PredictionTargetPreview from './PredictionTargetPreview';
 import PredictionResult from './PredictionResult';
 import { PredictImage } from './hooks/PredictImage';
 
@@ -83,15 +84,20 @@ const UploadImage: React.FC<UploadImageProps> = ({
 
         <div className="upload-result">
           {/* 推論対象画像 */}
-          <PredictionTarget
-            fileInputRef={fileInputRef}
-            onClickSubmit={onClickSubmit}
-            onChangeFile={onChangeFile}
-            fileUpload={fileUpload}
-            fileDelete={fileDelete}
-            src={src}
-            previewUrl={previewUrl}
-          />
+          {previewUrl === '' ? (
+            <PredictionTargetEmpty
+              fileInputRef={fileInputRef}
+              onChangeFile={onChangeFile}
+              fileUpload={fileUpload}
+            />
+          ) : (
+            <PredictionTargetPreview
+              previewUrl={previewUrl}
+              onClickSubmit={onClickSubmit}
+              fileDelete={fileDelete}
+              src={src}
+            />
+          )}
 
           {/* 推論結果 */}
           <PredictionResult
