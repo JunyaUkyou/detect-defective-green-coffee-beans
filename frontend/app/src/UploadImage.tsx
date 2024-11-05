@@ -25,7 +25,6 @@ const UploadImage: React.FC<UploadImageProps> = ({
   useEffect(() => {
     if (src) {
       setPreviewUrl(src);
-      console.log('Hello world!', imageNumber);
     }
   }, []);
 
@@ -60,7 +59,10 @@ const UploadImage: React.FC<UploadImageProps> = ({
       setPreviewUrl(objectUrl);
     }
   };
-
+  const fileUpload = () => {
+    const uploadElement = document.getElementById('file-upload-element');
+    uploadElement!.click();
+  };
   return (
     <>
       <div className="upload-image">
@@ -83,14 +85,26 @@ const UploadImage: React.FC<UploadImageProps> = ({
                   alt="Uploaded"
                   className="ai-image"
                 />
-                <input
-                  name="file"
-                  type="file"
-                  className="image-upload"
-                  accept="image/*"
-                  onChange={onChangeFile}
-                />
               </label>
+              <div className="run-prediction">
+                <label>
+                  <input
+                    id="file-upload-element"
+                    name="file"
+                    type="file"
+                    className="image-upload"
+                    accept="image/*"
+                    onChange={onChangeFile}
+                    style={{ display: 'none' }}
+                  />
+                  <button
+                    className="run-prediction-button"
+                    onClick={fileUpload}
+                  >
+                    ファイルアップロード
+                  </button>
+                </label>
+              </div>
             </div>
           ) : (
             <div className="upload-left">

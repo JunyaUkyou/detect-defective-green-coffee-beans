@@ -188,9 +188,8 @@ body {
   height: auto;
   display: flex;
   justify-content: center;
-  border: 1px solid #e5c046;
+  border: 3px solid #e5c046;
   border-radius: 30px;
-  cursor: pointer;
 }
 
 .image-upload {
