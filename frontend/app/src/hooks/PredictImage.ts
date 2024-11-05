@@ -14,8 +14,8 @@ export const PredictImage = () => {
     setIsPredicting(true);
 
     // 画像を src からフェッチして Blob に変換
-    const response = await fetch(src);
-    const blob = await response.blob();
+    const imgResponse = await fetch(src);
+    const blob = await imgResponse.blob();
 
     // 画像パスからファイル名を取得
     const getFileName = (path: string) =>
@@ -30,21 +30,43 @@ export const PredictImage = () => {
     formData.append('file', file);
 
     // SSD推論実施
-    fetch('http://localhost:8000/ssd', {
+    const apiResponse = await fetch('http://localhost:8000/ssd', {
       method: 'POST',
       body: formData, // ファイルを含めたFormDataを送信
-    })
-      .then((response) => response.blob()) // Blob 形式で画像を取得
-      .then((blob) => {
-        const url = URL.createObjectURL(blob);
-        setIsPredicting(false);
-        console.log({ url });
-        setPredictionImageUrl(url); // 画像を表示するためにURLを生成
-      })
-      .catch((error) => {
-        console.error('API実行中エラー:', error);
-        setIsPredicting(false);
-      });
+    });
+
+    setIsPredicting(false);
+    if (!apiResponse.ok) {
+      const errorData = await apiResponse.json();
+      console.log({ errorData });
+      throw new Error(errorData.detail);
+    }
+
+    const apiBlob = await apiResponse.blob();
+    const url = URL.createObjectURL(apiBlob);
+
+    console.log({ url });
+    setPredictionImageUrl(url); // 画像を表示するためにURLを生成
+
+    // .then((response) => {
+    //   if (response.status !== 200) {
+    //     const errorData = await response.json();
+    //     console.log({ response });
+    //     throw new Error('SSD推論エラー');
+    //   }
+    //   return response.blob();
+    // }) // Blob 形式で画像を取得
+    // .then((blob) => {
+    //   const url = URL.createObjectURL(blob);
+    //   setIsPredicting(false);
+    //   console.log({ url });
+    //   setPredictionImageUrl(url); // 画像を表示するためにURLを生成
+    // })
+    // .catch((error) => {
+    //   console.error(error);
+    //   setIsPredicting(false);
+    //   throw new Error(error);
+    // });
   };
 
   return { isPredicting, predictionImageUrl, runPrediction };

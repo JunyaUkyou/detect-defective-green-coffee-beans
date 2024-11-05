@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import FreeUploadImage from './FreeUploadImage';
 import PredictionResult from './PredictionResult';
 import { PredictImage } from './hooks/PredictImage';
 
@@ -16,6 +15,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>(''); // プレビュー画像のURL
+  const [ApiError, setApiError] = useState<string>(''); // プレビュー画像のURL
 
   // 推論中フラグ、推論結果画像URL、推論実施関数
   const { isPredicting, predictionImageUrl, runPrediction } = PredictImage();
@@ -31,7 +31,16 @@ const UploadImage: React.FC<UploadImageProps> = ({
 
   // 推論実施関数
   const onClickSubmit = async () => {
-    runPrediction(previewUrl);
+    try {
+      setApiError('');
+      await runPrediction(previewUrl);
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        setApiError(e.message);
+      } else {
+        setApiError('例外発生');
+      }
+    }
   };
 
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +61,11 @@ const UploadImage: React.FC<UploadImageProps> = ({
             <span>{description}</span>
           </h3>
         </div>
+        {ApiError !== '' && (
+          <div className="api-error">
+            <p className="api-error-text">{ApiError}</p>
+          </div>
+        )}
         <div className="upload-result">
           {previewUrl === '' ? (
             <div className="upload-left">

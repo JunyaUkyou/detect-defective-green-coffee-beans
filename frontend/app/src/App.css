@@ -127,6 +127,10 @@ body {
 }
 
 /* 推論 */
+.api-error-text {
+  color: #ff7676;
+}
+
 .run-prediction {
   margin-top: 20px;
 }
