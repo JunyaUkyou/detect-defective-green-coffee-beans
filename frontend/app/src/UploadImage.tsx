@@ -82,6 +82,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
         <ErrorMessage message={ApiError} />
 
         <div className="upload-result">
+          {/* 推論対象画像 */}
           <PredictionTarget
             onClickSubmit={onClickSubmit}
             onChangeFile={onChangeFile}

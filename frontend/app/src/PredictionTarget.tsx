@@ -19,6 +19,7 @@ const PredictionTarget: React.FC<PredictionTargetProps> = ({
 }) => {
   return (
     <>
+      {/* 推論対象のプレビュー画像が無い場合、ファイルアップロードを表示 */}
       {previewUrl === '' ? (
         <div className="upload-left">
           <label className="upload-label">
