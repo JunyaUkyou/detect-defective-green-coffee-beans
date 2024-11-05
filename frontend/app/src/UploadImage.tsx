@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PredictionDescription from './PredictionDescription';
 import ErrorMessage from './ErrorMessage';
 import PredictionResult from './PredictionResult';
 import { PredictImage } from './hooks/PredictImage';
@@ -73,11 +74,10 @@ const UploadImage: React.FC<UploadImageProps> = ({
   return (
     <>
       <div className="upload-image">
-        <div className="description">
-          <h3 className="heading" data-number={paddedImageNumber}>
-            <span>{description}</span>
-          </h3>
-        </div>
+        <PredictionDescription
+          imageNumber={imageNumber}
+          description={description}
+        />
         <ErrorMessage message={ApiError} />
         <div className="upload-result">
           {previewUrl === '' ? (
