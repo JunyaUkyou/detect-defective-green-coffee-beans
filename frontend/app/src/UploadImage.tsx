@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PredictionDescription from './PredictionDescription';
 import ErrorMessage from './ErrorMessage';
 import PredictionTarget from './PredictionTarget';
@@ -16,6 +16,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
   description,
   imageNumber,
 }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>(''); // プレビュー画像のURL
   const [predictionError, setPredictionError] = useState<string>(''); // プレビュー画像のURL
@@ -62,8 +63,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
   };
 
   const fileUpload = () => {
-    const uploadElement = document.getElementById('file-upload-element');
-    uploadElement!.click();
+    fileInputRef.current?.click();
   };
 
   const fileDelete = () => {
@@ -84,6 +84,7 @@ const UploadImage: React.FC<UploadImageProps> = ({
         <div className="upload-result">
           {/* 推論対象画像 */}
           <PredictionTarget
+            fileInputRef={fileInputRef}
             onClickSubmit={onClickSubmit}
             onChangeFile={onChangeFile}
             fileUpload={fileUpload}

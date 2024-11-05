@@ -1,6 +1,7 @@
 import React from 'react';
 
 interface PredictionTargetProps {
+  fileInputRef: React.RefObject<HTMLInputElement>;
   previewUrl: string;
   onChangeFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClickSubmit: () => Promise<void>;
@@ -10,6 +11,7 @@ interface PredictionTargetProps {
 }
 
 const PredictionTarget: React.FC<PredictionTargetProps> = ({
+  fileInputRef,
   previewUrl,
   onChangeFile,
   onClickSubmit,
@@ -32,6 +34,7 @@ const PredictionTarget: React.FC<PredictionTargetProps> = ({
           <div className="run-prediction">
             <label>
               <input
+                ref={fileInputRef}
                 id="file-upload-element"
                 name="file"
                 type="file"
