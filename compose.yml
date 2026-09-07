@@ -10,6 +10,7 @@ services:
       - 8000:8000 # ホストマシンのポート8000を、docker内のポート8000に接続
     environment:
       - WATCHFILES_FORCE_POLLING=true # ホットリロードを設定
+    platform: linux/amd64
 
   frontend:
     build:
@@ -17,6 +18,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./frontend:/usr/src/app
+      - /usr/src/app/app/node_modules
     ports:
       - 5173:5173 # ホストマシンのポート5173を、docker内のポート5173に接続
     environment:
