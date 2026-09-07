@@ -173,3 +173,4 @@ http://localhost:8000/docs
 ## トラブルシューティング
 
 - mac の場合、Docker の設定で「Use Virtualization framework」にチェックがついていると起動しない場合があります<a href="https://qiita.com/takumisenaha00/items/62f0a8f184240c2b3aca">参考</a>
+- 起動時に行われるSSDモデルの読み込み完了までAPIが使えません。「docker compose logs backend」で「startup event load_ssd end」が表示されると、SSDモデルの読み込みが完了し、アプリが使用可能になります
