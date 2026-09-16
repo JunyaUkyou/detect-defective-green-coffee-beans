@@ -101,7 +101,7 @@ def visualize(input_tensor, output):
     font = ImageFont.truetype('fonts/NotoSansCJKjp-Bold.otf', font_size)
 
     # 描画に使用するカラーマップ取得
-    color_map = plt.cm.get_cmap('hsv', len(CLASS_NAMES) + 1)  # ラベル数分取得
+    color_map = plt.get_cmap('hsv', len(CLASS_NAMES) + 1)  # ラベル数分取得
 
     # バウンディングボックスとラベルの描画
     for box, label in zip(boxes, labels):
