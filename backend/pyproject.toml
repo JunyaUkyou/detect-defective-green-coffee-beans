@@ -6,16 +6,16 @@ authors = ["None"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-fastapi = "^0.115.0"
-uvicorn = {extras = ["standard"], version = "^0.30.6"}
-python-multipart = "^0.0.9"
+python = ">=3.11, <3.14"
+fastapi = "^0.141.1"
+uvicorn = "^0.53.0"
+python-multipart = "^0.0.32"
 pillow = "^10.4.0"
-torch = "2.4.1"
-torchvision = "0.19.1"
-pytorch-lightning = "^2.4.0"
-matplotlib = "^3.9.2"
-python-dotenv = "^1.0.1"
+torch = "^2.14.0"
+torchvision = "^0.29.0"
+pytorch-lightning = "^2.6.6"
+matplotlib = "^3.11.2"
+python-dotenv = "^1.2.3"
 
 [[tool.poetry.source]]
 name = "pytorch"
@@ -24,8 +24,8 @@ priority = "supplemental"
 
 
 [tool.poetry.group.dev.dependencies]
-pytest-asyncio = "^0.24.0"
-pytest = "^8.3.3"
+pytest-asyncio = "^1.4.0"
+pytest = "^9.1.1"
 httpx = "^0.27.2"
 
 [build-system]
