@@ -10,7 +10,6 @@ services:
       - 8000:8000 # ホストマシンのポート8000を、docker内のポート8000に接続
     environment:
       - WATCHFILES_FORCE_POLLING=true # ホットリロードを設定
-    platform: linux/amd64
 
   frontend:
     build:

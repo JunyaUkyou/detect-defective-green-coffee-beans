@@ -8,15 +8,12 @@ WORKDIR /src
 # 環境変数にPYTHONPATHを設定
 ENV PYTHONPATH="${PYTHONPATH}:/src"
 
-# pipを使ってpoetryをインストール
-RUN pip install poetry
+# requirements.txt をコピーして pip で一括インストール
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-# poetryの定義ファイルをコピー (存在する場合)
-COPY pyproject.toml* poetry.lock* ./
-
-# poetryでライブラリをインストール (pyproject.tomlが既にある場合)
-RUN poetry config virtualenvs.in-project false
-RUN if [ -f pyproject.toml ]; then poetry install --no-root; fi
+# ソースコードのコピー
+COPY . /src
 
 # uvicornのサーバーを立ち上げる
-ENTRYPOINT ["poetry", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--reload"]
+ENTRYPOINT ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--reload"]

@@ -1,4 +1,5 @@
 # パッケージインポート
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -7,7 +8,15 @@ from .events import startup          # イベント
 from .routers import ssd             # ルーティング
 from core.config import FRONTEND_URL  # 設定値
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Load model
+    await startup.load_ssd()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 # 許可するURL
 origins = [
@@ -23,8 +32,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# イベントの登録
-app.add_event_handler("startup", startup.load_ssd)  # 起動時に実行する
 
 # ルーターの登録
 app.include_router(ssd.router)
