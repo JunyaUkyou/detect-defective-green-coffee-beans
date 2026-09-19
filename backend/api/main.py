@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # 別ファイルからインポート
 from .events import startup          # イベント
-from .routers import ssd             # ルーティング
+from .routers import ssd, health     # ルーティング
 from core.config import FRONTEND_URL  # 設定値
 
 
@@ -35,3 +35,4 @@ app.add_middleware(
 
 # ルーターの登録
 app.include_router(ssd.router)
+app.include_router(health.router)
