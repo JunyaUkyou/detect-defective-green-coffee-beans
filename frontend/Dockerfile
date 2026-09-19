@@ -12,3 +12,5 @@ RUN npm install
 
 # アプリケーションコードをコピー
 COPY ./app .
+
+CMD ["npm", "run", "start"]
