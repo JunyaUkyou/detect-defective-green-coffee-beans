@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface PredictionTargetEmptyProps {
   fileInputRef: React.RefObject<HTMLInputElement>;
@@ -16,11 +16,7 @@ const PredictionTargetEmpty: React.FC<PredictionTargetEmptyProps> = ({
       {/* 推論対象のプレビュー画像が無い場合、ファイルアップロードを表示 */}
       <div className="upload-left">
         <label className="upload-label">
-          <img
-            src="/public/images/upload.png"
-            alt="Uploaded"
-            className="ai-image"
-          />
+          <img src="/images/upload.png" alt="Uploaded" className="ai-image" />
         </label>
         <div className="run-prediction">
           <label>
@@ -32,7 +28,7 @@ const PredictionTargetEmpty: React.FC<PredictionTargetEmptyProps> = ({
               className="image-upload"
               accept="image/*"
               onChange={onChangeFile}
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
             />
             <button className="run-prediction-button" onClick={fileUpload}>
               ファイルアップロード

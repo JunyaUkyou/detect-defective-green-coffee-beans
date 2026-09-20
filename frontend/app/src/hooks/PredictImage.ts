@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export const PredictImage = () => {
   // 推論結果画像
   const [predictionImageUrl, setPredictionImageUrl] = useState<string | null>(
-    null
+    null,
   );
   // ローディングフラグ
   const [isPredicting, setIsPredicting] = useState(false);
@@ -19,7 +19,7 @@ export const PredictImage = () => {
 
     // 画像パスからファイル名を取得
     const getFileName = (path: string) =>
-      path.substring(path.lastIndexOf('/') + 1);
+      path.substring(path.lastIndexOf("/") + 1);
     const fileName = getFileName(src);
 
     // BlobからFileオブジェクトを作成
@@ -27,11 +27,11 @@ export const PredictImage = () => {
 
     // フォームにFileオブジェクト追加
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     // SSD推論実施
-    const apiResponse = await fetch('http://localhost:8000/ssd', {
-      method: 'POST',
+    const apiResponse = await fetch("http://localhost:8000/api/ssd", {
+      method: "POST",
       body: formData, // ファイルを含めたFormDataを送信
     });
 
