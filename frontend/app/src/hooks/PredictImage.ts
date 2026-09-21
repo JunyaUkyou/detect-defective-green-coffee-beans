@@ -29,8 +29,10 @@ export const PredictImage = () => {
     const formData = new FormData();
     formData.append("file", file);
 
+    const API_BASE_URL = import.meta.env.VITE_PUBLIC_API_URL || "";
+
     // SSD推論実施
-    const apiResponse = await fetch("http://localhost:8000/api/ssd", {
+    const apiResponse = await fetch(`${API_BASE_URL}/api/ssd`, {
       method: "POST",
       body: formData, // ファイルを含めたFormDataを送信
     });
@@ -38,14 +40,12 @@ export const PredictImage = () => {
     setIsPredicting(false);
     if (!apiResponse.ok) {
       const errorData = await apiResponse.json();
-      console.log({ errorData });
       throw new Error(errorData.detail);
     }
 
     const apiBlob = await apiResponse.blob();
     const url = URL.createObjectURL(apiBlob);
 
-    console.log({ url });
     setPredictionImageUrl(url); // 画像を表示するためにURLを生成
 
     // .then((response) => {
