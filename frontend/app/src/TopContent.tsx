@@ -8,12 +8,9 @@ const TopContent = () => {
             を検出します
           </p>
           <div className="top-images">
-            <img src="/public/images/4307_color.png" className="parson-image" />
-            <img
-              src="/public/images/1421_color.png"
-              className="coffee-cap-image"
-            />
-            <img src="/public/images/4304_color.png" className="parson-image" />
+            <img src="/images/4307_color.png" className="parson-image" />
+            <img src="/images/1421_color.png" className="coffee-cap-image" />
+            <img src="/images/4304_color.png" className="parson-image" />
           </div>
         </div>
       </div>

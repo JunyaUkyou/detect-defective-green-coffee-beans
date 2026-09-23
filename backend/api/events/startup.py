@@ -8,7 +8,7 @@ from core.config import FRONTEND_URL   # 設定値
 logger = getLogger("uvicorn.app")
 
 
-async def load_ssd():
+def load_ssd():
     """
     SSDモデルをアプリ起動時に読み込む
 
@@ -21,5 +21,6 @@ async def load_ssd():
     推論時のAPIリクエストの応答時間を短縮します。
     """
     logger.info("startup event load_ssd start")
+    # 一時的にコメントアウト
     ssd_predictor.load_model()
     logger.info("startup event load_ssd end")
